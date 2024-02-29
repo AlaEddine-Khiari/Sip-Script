@@ -13,7 +13,7 @@ class TestScript(unittest.TestCase):
 
         self.assertEqual(result, ('test_user', 'test_password'))
 
-     @patch('builtins.open')
+    @patch('builtins.open')
     @patch('builtins.print')
     def test_update_sip_conf(self, mock_print, mock_open):
         sip_conf_path = 'sip.conf'
