@@ -1,6 +1,6 @@
 From alpine:latest
 
-RUN apk add --no-cache python3-dev \
+RUN apk add --no-cache python3 python3-dev py3-pip
     && pip3 install --upgrade pip
 
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 # Copy the script and Flask application into the container at /app
 COPY script.py app.py /app/
 
-RUN pip3 --no-cache-dir install Flask psycopg2-binary
+RUN pip3 install Flask psycopg2-binary
 
 EXPOSE 5000
 
