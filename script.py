@@ -30,12 +30,10 @@ def fetch_internals_user():
     except Exception as e:
         print(f"Error fetching data from PostgreSQL: {e}")
         return None
-
-def update_sip_conf():
-    try:
-        # Get the file path from environment variable
+# Get the file path from environment variable
         sip_conf_path = os.environ.get('SIP_CONF_PATH')
-
+def update_sip_conf(sip_conf_path):
+    try:
         with open(sip_conf_path, 'r') as f:
             lines = f.readlines()
 
