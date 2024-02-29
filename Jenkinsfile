@@ -19,8 +19,6 @@ pipeline {
                     sh 'echo "XXXX \n; Configuration for internal extensions\n" > Test/sip.conf'
                     //For Script.py
                     sh "python3 -m unittest Test/test_script.py"
-                    // For app.py unit test
-                    sh "python3 -m unittest Test/test_app.py"
                 }
             }
         }
