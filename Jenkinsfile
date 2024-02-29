@@ -15,8 +15,6 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // create directory for tests
-                    sh 'mkdir -p Test'
                     // create file to test 
                     sh 'echo "XXXX \n; Configuration for internal extensions\n" > Test/sip.conf'
                     // For Script.py
