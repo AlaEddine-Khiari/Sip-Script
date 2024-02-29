@@ -15,10 +15,10 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                        # For script.py unit test
+                        // For script.py unit test
                         python3 -m unittest Test/test_script.py
 
-                        # For app.py unit test
+                        // For app.py unit test
                         python3 -m unittest Test/test_app.py
                 }
             }
