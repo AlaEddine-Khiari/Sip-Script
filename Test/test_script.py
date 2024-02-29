@@ -17,9 +17,10 @@ class TestScript(unittest.TestCase):
     @patch('builtins.open', create=True)
     @patch('builtins.print')
     def test_update_sip_conf(self, mock_print, mock_open):
-        mock_open.side_effect = 
-            ['; Configuration for internal extensions'],
-        update_sip_conf('Tets/sip.conf)     
+        mock_open.side_effect = [
+            ['; Configuration for internal extensions'],  # Simulate successful read
+        ]
+        update_sip_conf('Test/sip.conf')     
         mock_print.assert_called_with("sip.conf updated successfully")
 
 if __name__ == '__main__':
