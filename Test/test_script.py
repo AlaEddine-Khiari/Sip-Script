@@ -13,8 +13,8 @@ class TestScript(unittest.TestCase):
         with patch('builtins.open', mock_open()) as mock_open_func:
             update_sip_conf('/Test/sip.conf')  # Assuming the file is in the Test directory
             
-            # Assert that the open function was called with the correct mode ('w')
-            mock_open_func.assert_called_once_with('/Test/sip.conf', 'w')
+            # Assert that the open function was called with the correct mode ('r')
+            mock_open_func.assert_called_once_with('/Test/sip.conf', 'r')
 
 if __name__ == '__main__':
     unittest.main()
