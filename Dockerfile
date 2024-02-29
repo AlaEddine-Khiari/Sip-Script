@@ -7,9 +7,7 @@ WORKDIR /app
 COPY script.py app.py /app/
 
 # Setu up Image
-RUN python setup.py build
-RUN python setup.py install
-RUN pip install psycopg2-binary
+RUN pip install psycopg2-binary==2.7.3.2
 RUN pip install Flask 
 # Expose the Flask port
 EXPOSE 5000
