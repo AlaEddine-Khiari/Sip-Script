@@ -5,7 +5,7 @@ pipeline {
         stage('Getting project from Git') {
             steps {
                 script {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']],
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']],
                         userRemoteConfigs: [[
                             url: 'https://github.com/AlaEddine-Khiari/Sip-Script']]])
                 }
@@ -15,9 +15,11 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    //create file to test 
+                    // create directory for tests
+                    sh 'mkdir -p Test'
+                    // create file to test 
                     sh 'echo "XXXX \n; Configuration for internal extensions\n" > Test/sip.conf'
-                    //For Script.py
+                    // For Script.py
                     sh "python3 -m unittest Test/test_script.py"
                 }
             }
@@ -34,9 +36,10 @@ pipeline {
         stage('Push Image To Dockerhub') {
             steps {
                 script {
-                   withCredentials([usernamePassword(credentialsId: 'docker_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-            	    sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
-                    sh 'docker push alaeddinekh/sip-add:latest'
+                    withCredentials([usernamePassword(credentialsId: 'docker_id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                        sh 'docker push alaeddinekh/sip-add:latest'
+                    }
                 }
             }
         }
