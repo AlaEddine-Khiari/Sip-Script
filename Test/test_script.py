@@ -19,17 +19,19 @@ class TestScript(unittest.TestCase):
     def test_update_sip_conf(self, mock_print, mock_open):
         mock_open.side_effect = [
             mock_open(read_data="[internals]\n[existing_user]\n").return_value,
-            mock_open(read_data="").return_value  # Simulate an empty file
+            FileNotFoundError  # Simulate file not found error
         ]
         
-        update_sip_conf('Test/sip.conf')  # Assuming the file is in the Test directory
+        update_sip_conf('/Test/sip.conf')  # Assuming the file is in the Test directory
 
-        mock_print.assert_called_with("sip.conf updated successfully")
         mock_open.assert_called_with('/Test/sip.conf', 'w')  # Check if the file is opened for writing
 
         # Check if the required lines are added to the file
         mock_open.return_value.write.assert_any_call("[internals]\n")
         mock_open.return_value.write.assert_any_call("[existing_user]\n")
+
+        # Check if the success message is printed
+        mock_print.assert_called_with("sip.conf updated successfully")
 
 if __name__ == '__main__':
     unittest.main()
