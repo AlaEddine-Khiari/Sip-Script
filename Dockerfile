@@ -1,16 +1,17 @@
-FROM python:3.7.3-alpine
+From alpine:latest
 
-# Set the working directory in the container
+RUN apk add --no-cache python3-dev \
+    && pip3 install --upgrade pip
+
 WORKDIR /app
 
 # Copy the script and Flask application into the container at /app
 COPY script.py app.py /app/
 
-# Setu up Image
-RUN pip install psycopg2-binary
-RUN pip install Flask 
-# Expose the Flask port
+RUN pip3 --no-cache-dir install Flask psycopg2-binary
+
 EXPOSE 5000
 
-# Run the Flask application
-CMD ["python", "app.py"]
+ENTRYPOINT ["python3"]
+CMD ["app.py"]
+
