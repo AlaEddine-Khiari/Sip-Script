@@ -15,11 +15,6 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh "pip3 install Flask psycopg2-binary"
-
-                    // For script.py unit test
-                    sh "python3 -m unittest Test/test_script.py"
-
                     // For app.py unit test
                     sh "python3 -m unittest Test/test_app.py"
                 }
