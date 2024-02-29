@@ -8,9 +8,8 @@ COPY script.py app.py /app/
 
 # Setu up Image
 RUN pip install --upgrade pip
-RUN pip install psycopg2
-RUN pip install Flask psycopg2-binary
-
+RUN pip install psycopg2-binary
+RUN pip install Flask 
 # Expose the Flask port
 EXPOSE 5000
 
