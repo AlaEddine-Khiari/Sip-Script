@@ -45,7 +45,7 @@ def update_sip_conf(sip_conf_path):
         if last_internals_index == -1:
             raise Exception('verify sip.conf file')
 
-        # Remove lines after the last "internals" user line
+        # Remove lines after the line
         lines = lines[:last_internals_index + 1]
 
         # Add new user lines from the database
