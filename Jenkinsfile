@@ -15,6 +15,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
+                    //create file to test 
+                    sh 'echo "[internals]\n[existing_user]\n" > Test/sip.conf'
                     //For Script.py
                     sh "python3 -m unittest Test/test_script.py"
                     // For app.py unit test
