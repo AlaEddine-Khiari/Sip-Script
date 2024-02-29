@@ -15,6 +15,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
+                    //For Script.py
+                    sh "python3 -m unittest Test/test_script.py"
                     // For app.py unit test
                     sh "python3 -m unittest Test/test_app.py"
                 }
