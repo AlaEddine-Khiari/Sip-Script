@@ -17,12 +17,9 @@ class TestScript(unittest.TestCase):
     @patch('builtins.open', create=True)
     @patch('builtins.print')
     def test_update_sip_conf(self, mock_print, mock_open):
-        mock_open.side_effect = [
-            FileNotFoundError,  # Simulate file not found error
-            ['[internals]\n', '[existing_user]\n'],  # Simulate successful write
-        ]
-        update_sip_conf('Tets/sip.conf)     # Test successful write scenario
-
+        mock_open.side_effect = 
+            ['; Configuration for internal extensions'],
+        update_sip_conf('Tets/sip.conf)     
         mock_print.assert_called_with("sip.conf updated successfully")
 
 if __name__ == '__main__':
