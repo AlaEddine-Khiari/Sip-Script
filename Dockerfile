@@ -6,7 +6,8 @@ WORKDIR /app
 # Copy the script and Flask application into the container at /app
 COPY script.py app.py /app/
 
-# Install Flask
+# Setu up Image
+RUN pip install --upgrade pip
 RUN pip install Flask psycopg2-binary
 
 # Expose the Flask port
