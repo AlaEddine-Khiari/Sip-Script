@@ -24,6 +24,9 @@ class TestScript(unittest.TestCase):
         
         update_sip_conf('/Test/sip.conf')  # Assuming the file is in the Test directory
 
+        # Check if the file is opened with the correct mode ('w' for write)
+        mock_open.assert_called_once_with('/Test/sip.conf', 'w')
+
         # Check if the required lines are added to the file
         mock_open.return_value.write.assert_any_call("[internals]\n")
         mock_open.return_value.write.assert_any_call("[existing_user]\n")
