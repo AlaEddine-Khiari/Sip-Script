@@ -13,15 +13,12 @@ class TestScript(unittest.TestCase):
 
         self.assertEqual(result, ('test_user', 'test_password'))
 
-    @patch('builtins.open', create=True)
+     @patch('builtins.open')
     @patch('builtins.print')
     def test_update_sip_conf(self, mock_print, mock_open):
-        mock_open.side_effect = [
-            ['[internals]\n', '[existing_user]\n'],
-            None  # Simulate successful write
-        ]
+        sip_conf_path = 'sip.conf'
 
-        update_sip_conf()
+        update_sip_conf(sip_conf_path)
 
         mock_print.assert_called_with("sip.conf updated successfully")
 
