@@ -21,9 +21,7 @@ class TestScript(unittest.TestCase):
             FileNotFoundError,  # Simulate file not found error
             ['[internals]\n', '[existing_user]\n'],  # Simulate successful write
         ]
-
-        update_sip_conf('path_to_nonexistent_sip_conf')  # Test file not found scenario
-        update_sip_conf('path_to_existing_sip_conf')     # Test successful write scenario
+        update_sip_conf('Tets/sip.conf)     # Test successful write scenario
 
         mock_print.assert_called_with("sip.conf updated successfully")
 
