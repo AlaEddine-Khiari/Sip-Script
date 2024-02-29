@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, mock_open
 from script import fetch_internals_user, update_sip_conf
 import os
 
@@ -17,10 +17,17 @@ class TestScript(unittest.TestCase):
     @patch('builtins.open', create=True)
     @patch('builtins.print')
     def test_update_sip_conf(self, mock_print, mock_open):
+        # Mock the open function to return a mock file
         mock_open.side_effect = [
-            ['; Configuration for internal extensions'],  # Simulate successful read
+            FileNotFoundError,  # Simulate file not found error
+            mock_open(),        # Simulate successful write
         ]
-        update_sip_conf('Test/sip.conf')     
+
+        # Mock the fetch_internals_user function
+        with patch('script.fetch_internals_user', return_value=('new_user', 'new_password')):
+            update_sip_conf('path_to_nonexistent_sip_conf')  # Test file not found scenario
+            update_sip_conf('/Test/sip.conf')     # Test successful write scenario
+
         mock_print.assert_called_with("sip.conf updated successfully")
 
 if __name__ == '__main__':
