@@ -30,8 +30,7 @@ def fetch_internals_user():
     except Exception as e:
         print(f"Error fetching data from PostgreSQL: {e}")
         return None
-# Get the file path from environment variable
-        sip_conf_path = os.environ.get('SIP_CONF_PATH')
+
 def update_sip_conf(sip_conf_path):
     try:
         with open(sip_conf_path, 'r') as f:
@@ -66,4 +65,5 @@ def update_sip_conf(sip_conf_path):
 
 if __name__ == "__main__":
     # Call function to update sip.conf with user from the database
-    update_sip_conf()
+    sip_conf_path = os.environ.get('SIP_CONF_PATH')
+    update_sip_conf(sip_conf_path)
