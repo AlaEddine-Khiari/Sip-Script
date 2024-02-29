@@ -13,4 +13,4 @@ RUN pip install Flask psycopg2-binary
 EXPOSE 5000
 
 # Run the Flask application
-CMD ["python3", "app.py"]
+CMD ["python", "app.py"]
