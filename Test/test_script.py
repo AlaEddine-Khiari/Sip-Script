@@ -25,7 +25,7 @@ class TestScript(unittest.TestCase):
 
         # Mock the fetch_internals_user function
         with patch('script.fetch_internals_user', return_value=('new_user', 'new_password')):
-            update_sip_conf('path_to_nonexistent_sip_conf')  # Test file not found scenario
+            update_sip_conf('/Test/sip.conf')  # Test file not found scenario
             update_sip_conf('/Test/sip.conf')     # Test successful write scenario
 
         mock_print.assert_called_with("sip.conf updated successfully")
