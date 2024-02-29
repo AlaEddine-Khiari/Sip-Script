@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.7-alpine
 
 # Set the working directory in the container
 WORKDIR /app
