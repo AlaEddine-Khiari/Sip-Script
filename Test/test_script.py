@@ -5,14 +5,6 @@ import os
 
 class TestScript(unittest.TestCase):
 
-    def setUp(self):
-        self.sip_conf_path = "Test/sip.conf"
-        with open(self.sip_conf_path, 'w') as f:
-            f.write("; Configuration for internal extensions")
-
-    def tearDown(self):
-        os.remove(self.sip_conf_path)
-
     @patch('psycopg2.connect')
     def test_fetch_internals_user(self, mock_connect):
         mock_cursor = mock_connect.return_value.cursor.return_value
@@ -26,11 +18,12 @@ class TestScript(unittest.TestCase):
     @patch('builtins.print')
     def test_update_sip_conf(self, mock_print, mock_open):
         mock_open.side_effect = [
-            ['[internals]\n', '[existing_user]\n'],
-            None  # Simulate successful write
+            FileNotFoundError,  # Simulate file not found error
+            ['[internals]\n', '[existing_user]\n'],  # Simulate successful write
         ]
 
-        update_sip_conf(self.sip_conf_path)
+        update_sip_conf('path_to_nonexistent_sip_conf')  # Test file not found scenario
+        update_sip_conf('path_to_existing_sip_conf')     # Test successful write scenario
 
         mock_print.assert_called_with("sip.conf updated successfully")
 
