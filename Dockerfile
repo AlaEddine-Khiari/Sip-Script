@@ -1,4 +1,4 @@
-FROM python:3.13.0a3-alpine3.19
+FROM python:3.7.3-alpine
 
 # Set the working directory in the container
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 COPY script.py app.py /app/
 
 # Setu up Image
-RUN pip install psycopg2-binary==2.7.4
+RUN pip install psycopg2-binary
 RUN pip install Flask 
 # Expose the Flask port
 EXPOSE 5000
