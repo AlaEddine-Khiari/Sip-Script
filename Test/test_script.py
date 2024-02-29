@@ -1,6 +1,6 @@
 import unittest
-from unittest.mock import patch
-from script import update_sip_conf
+from unittest.mock import patch, mock_open
+from script import fetch_internals_user, update_sip_conf
 
 class TestScript(unittest.TestCase):
 
@@ -9,11 +9,12 @@ class TestScript(unittest.TestCase):
         # Mock the fetch_internals_user function to return a valid result
         mock_connect.return_value.cursor.return_value.fetchone.return_value = ('test_user', 'test_password')
         
-        # Call the update_sip_conf function and ensure it runs without raising an exception
-        try:
+        # Mock the open function to return a mock file object
+        with patch('builtins.open', mock_open()) as mock_open_func:
             update_sip_conf('/Test/sip.conf')  # Assuming the file is in the Test directory
-        except Exception as e:
-            self.fail(f"Function raised exception: {e}")
+            
+            # Assert that the open function was called with the correct mode ('w')
+            mock_open_func.assert_called_once_with('/Test/sip.conf', 'w')
 
 if __name__ == '__main__':
     unittest.main()
