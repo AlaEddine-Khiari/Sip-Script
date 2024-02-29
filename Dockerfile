@@ -1,16 +1,23 @@
-From alpine:latest
+FROM alpine:latest
 
+# Install necessary packages
 RUN apk add --no-cache python3 python3-dev py3-pip
 
+# Set working directory
 WORKDIR /app
 
-# Copy the script and Flask application into the container at /app
+# Copy script.py and app.py to the working directory
 COPY script.py app.py /app/
 
-RUN pip3 install Flask psycopg2-binary
+# Create and activate a virtual environment
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
 
+# Install Flask and psycopg2-binary within the virtual environment
+RUN pip install Flask psycopg2-binary
+
+# Expose port 5000
 EXPOSE 5000
 
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
-
+# Command to run the application
+CMD ["python", "app.py"]
