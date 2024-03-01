@@ -16,7 +16,7 @@ def fetch_internals_user():
         cur = conn.cursor()
 
         # Execute a SELECT query to fetch data from 'internals_numbers' table
-        cur.execute("SELECT extension, secret FROM internals_numbers")
+        cur.execute("SELECT extension, secret FROM internal_numbers")
 
         # Fetch the first row (assuming one row contains one username and password)
         row = cur.fetchone()
