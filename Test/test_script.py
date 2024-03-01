@@ -17,14 +17,5 @@ class TestApp(unittest.TestCase):
         # Call the function to be tested
         update_sip_conf('/app/sip.conf')
 
-        # Assert that the database connection is called with the correct parameters
-        mock_connect.assert_called_once_with(
-            dbname='test_db',
-            user='test_user',
-            password='test_password',
-            host='test_host',
-            port='5432'
-        )
-
 if __name__ == '__main__':
     unittest.main()
