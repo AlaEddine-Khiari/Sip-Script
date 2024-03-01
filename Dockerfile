@@ -15,7 +15,7 @@ ENV PATH="/venv/bin:$PATH"
 
 # Upgrade pip in the virtual environment
 RUN /venv/bin/pip install --upgrade pip
-
+RUN chmod +x /app/script.py
 # Install Flask and psycopg2-binary within the virtual environment
 RUN /venv/bin/pip install Flask psycopg2-binary
 
