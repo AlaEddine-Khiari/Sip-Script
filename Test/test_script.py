@@ -5,7 +5,7 @@ from app import update_sip_conf, fetch_internals_user
 class TestApp(unittest.TestCase):
 
     @patch('psycopg2.connect')
-    @patch('builtins.open', mock_open(read_data=''))
+    @patch('builtins.open', mock_open(read_data='XXXX\n; Configuration for internal extensions\n'))
     def test_update_sip_conf(self, mock_connect):
         # Mock the fetch_internals_user function to return a valid result
         fetch_internals_user.return_value = [('test_user', 'test_password')]
@@ -15,7 +15,7 @@ class TestApp(unittest.TestCase):
         mock_cursor.fetchall.return_value = [('test_user', 'test_password')]
 
         # Call the function to be tested
-        update_sip_conf('/Test/sip.conf')
+        update_sip_conf('/app/sip.conf')
 
         # Assert that the database connection is called with the correct parameters
         mock_connect.assert_called_once_with(
