@@ -1,20 +1,30 @@
 import unittest
 from unittest.mock import patch, mock_open
-from script import fetch_internals_user, update_sip_conf
+from app import update_sip_conf, fetch_internals_user
 
-class TestScript(unittest.TestCase):
+class TestApp(unittest.TestCase):
 
     @patch('psycopg2.connect')
+    @patch('builtins.open', mock_open(read_data=''))
     def test_update_sip_conf(self, mock_connect):
         # Mock the fetch_internals_user function to return a valid result
-        mock_connect.return_value.cursor.return_value.fetchone.return_value = ('test_user', 'test_password')
-        
-        # Mock the open function to return a mock file object
-        with patch('builtins.open', mock_open()) as mock_open_func:
-            update_sip_conf('/Test/sip.conf')  # Assuming the file is in the Test directory
-            
-            # Assert that the open function was called with the correct mode ('r')
-            mock_open_func.assert_called_once_with('/Test/sip.conf', 'r')
+        fetch_internals_user.return_value = [('test_user', 'test_password')]
+
+        # Mock the database connection
+        mock_cursor = mock_connect.return_value.cursor.return_value
+        mock_cursor.fetchall.return_value = [('test_user', 'test_password')]
+
+        # Call the function to be tested
+        update_sip_conf('/sip.conf')
+
+        # Assert that the database connection is called with the correct parameters
+        mock_connect.assert_called_once_with(
+            dbname='test_db',
+            user='test_user',
+            password='test_password',
+            host='test_host',
+            port='5432'
+        )
 
 if __name__ == '__main__':
     unittest.main()
