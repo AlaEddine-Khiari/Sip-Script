@@ -1,6 +1,12 @@
 import os
 import psycopg2
-from flask import Flask, jsonify
+import logging
+
+from flask import Flask
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG)  # Set logging level to DEBUG
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
@@ -28,10 +34,12 @@ def fetch_internals_user():
         cur.close()
         conn.close()
 
+        logger.debug(f"Fetched internals user: {row}")  # Log debug information
+
         return row
 
     except Exception as e:
-        print(f"Error fetching data from PostgreSQL: {e}")
+        logger.error(f"Error fetching data from PostgreSQL: {e}")  # Log error
         return None
 
 def update_sip_conf(sip_conf_path):
@@ -61,17 +69,22 @@ def update_sip_conf(sip_conf_path):
         with open(sip_conf_path, 'w') as f:
             f.writelines(lines)
 
-        print("sip.conf updated successfully")
+        logger.debug("sip.conf updated successfully")  # Log debug information
 
     except Exception as e:
-        print(f"Error updating sip.conf: {e}")
+        logger.error(f"Error updating sip.conf: {e}")  # Log error
 
-@app.route('/update_sip_conf', methods=['GET'])
-def update_sip_conf_route():
-    # Call function to update sip.conf with user from the database
-    sip_conf_path = os.environ.get('SIP_CONF_PATH')
-    update_sip_conf(sip_conf_path)
-    return jsonify(message="sip.conf updated successfully")
+@app.route('/apply', methods=['GET'])
+def apply_changes():
+    try:
+        # Execute the script to update sip.conf
+        sip_conf_path = os.environ.get('SIP_CONF_PATH')
+        update_sip_conf(sip_conf_path)
+        return 'Changes applied successfully'
 
-if __name__ == "__main__":
+    except Exception as e:
+        logger.error(f"Error applying changes: {e}")  # Log error
+        return 'An error occurred while applying changes', 500  # Return 500 Internal Server Error status
+
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
