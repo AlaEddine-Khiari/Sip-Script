@@ -15,7 +15,7 @@ class TestApp(unittest.TestCase):
         mock_cursor.fetchall.return_value = [('test_user', 'test_password')]
 
         # Call the function to be tested
-        update_sip_conf('/sip.conf')
+        update_sip_conf('/Test/sip.conf')
 
         # Assert that the database connection is called with the correct parameters
         mock_connect.assert_called_once_with(
