@@ -18,14 +18,14 @@ def fetch_internals_user():
         # Execute a SELECT query to fetch data from 'internals_numbers' table
         cur.execute("SELECT extension, secret FROM internal_numbers")
 
-        # Fetch the first row (assuming one row contains one username and password)
-        row = cur.fetchone()
+        # Fetch the data
+        rows = cur.fetchall()
 
         # Close the cursor and connection
         cur.close()
         conn.close()
 
-        return row
+        return rows
 
     except Exception as e:
         print(f"Error fetching data from PostgreSQL: {e}")
@@ -48,11 +48,16 @@ def update_sip_conf(sip_conf_path):
         # Remove lines after the line
         lines = lines[:last_internals_index + 1]
 
+        # Fetch all users from the database
+        users = fetch_internals_users()
+        
         # Add new user lines from the database
-        new_exten, new_secret = fetch_internals_user()
-        lines.append(f'[{new_exten}](COMMON)\n')
-        lines.append(f'secret={new_secret}\n')
-        lines.append('\n')  # Add an empty line after each user entry
+        for user in users:
+            exten, secret = user
+            lines.append(f'[{exten}](COMMON)\n')
+            lines.append(f'secret={secret}\n')
+            lines.append('\n')  # Add an empty line after each user entry
+
 
         # Write the updated content back to sip.conf
         with open(sip_conf_path, 'w') as f:
