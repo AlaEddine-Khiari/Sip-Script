@@ -70,5 +70,5 @@ def update_sip_conf(sip_conf_path):
 
 if __name__ == "__main__":
     # Call function to update sip.conf with user from the database
-    sip_conf_path = os.environ.get('SIP_CONF_PATH')
+    sip_conf_path = "/app/sip.conf"
     update_sip_conf(sip_conf_path)
