@@ -44,6 +44,8 @@ def fetch_internals_user():
 
 def update_sip_conf(sip_conf_path):
     try:
+        logger.debug("Starting update_sip_conf function")
+
         with open(sip_conf_path, 'r') as f:
             lines = f.readlines()
 
@@ -56,6 +58,8 @@ def update_sip_conf(sip_conf_path):
         if last_internals_index == -1:
             raise Exception('verify sip.conf file')
 
+        logger.debug(f"Found last internals index: {last_internals_index}")
+
         # Remove lines after the line
         lines = lines[:last_internals_index + 1]
 
@@ -65,14 +69,19 @@ def update_sip_conf(sip_conf_path):
         lines.append(f'secret={new_secret}\n')
         lines.append('\n')  # Add an empty line after each user entry
 
+        logger.debug(f"New lines to be added: {lines[-3:]}")
+
         # Write the updated content back to sip.conf
         with open(sip_conf_path, 'w') as f:
             f.writelines(lines)
 
-        logger.debug("sip.conf updated successfully")  # Log debug information
+        logger.debug("sip.conf updated successfully")
 
     except Exception as e:
-        logger.error(f"Error updating sip.conf: {e}")  # Log error
+        logger.error(f"Error updating sip.conf: {e}")
+
+        # Raise the exception again to propagate it
+        raise e
 
 @app.route('/apply', methods=['GET'])
 def apply_changes():
