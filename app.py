@@ -24,8 +24,8 @@ def update_sip_conf(sip_conf_path):
         # Create a cursor
         cur = conn.cursor()
 
-        # Execute a SELECT query to fetch data from 'internals_numbers' table
-        cur.execute("SELECT extension, secret FROM internals_numbers")
+        # Execute a SELECT query to fetch data from 'internal_numbers' table
+        cur.execute("SELECT extension, secret FROM internal_numbers")
 
         # Fetch the first row (assuming one row contains one username and password)
         row = cur.fetchone()
