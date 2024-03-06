@@ -14,10 +14,6 @@ pipeline {
 
         stage('Test') {
             steps {
-                script {
-                    // create file to test 
-                    sh 'echo "XXXX \n; Configuration for internal extensions\n" > Test/sip.conf'
-                    // For Script.py
                     sh "python3 -m unittest Test/test_script.py"
                 }
             }
