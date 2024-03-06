@@ -22,5 +22,9 @@ RUN /venv/bin/pip install Flask psycopg2-binary
 # Expose port 5000
 EXPOSE 5000
 
+# Define volumes 
+VOLUME /app/sip.conf
+VOLUME /app/voicemail.conf
+
 # Command to run the application
 CMD ["/venv/bin/python", "app.py"]
