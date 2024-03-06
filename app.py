@@ -39,16 +39,20 @@ def fetch_internals_user():
         logger.error(f"Error fetching data from PostgreSQL: {e}")
         raise  # Raise the exception to be caught in the caller function
 
+def find_last_internals_index(lines):
+    """Find the last "internals" user line index"""
+    last_internals_index = -1
+    for i, line in enumerate(lines):
+        if line.startswith('; Configuration for internal extensions'):
+            last_internals_index = i
+    return last_internals_index
+
 def update_sip_conf(sip_conf_path):
     try:
         with open(sip_conf_path, 'r') as f:
             lines = f.readlines()
 
-        # Find the last "internals" user line
-        last_internals_index = -1
-        for i, line in enumerate(lines):
-            if line.startswith('; Configuration for internal extensions'):
-                last_internals_index = i
+        last_internals_index = find_last_internals_index(lines)
 
         if last_internals_index == -1:
             raise Exception('Verify sip.conf file')
@@ -76,11 +80,45 @@ def update_sip_conf(sip_conf_path):
         logger.error(f"Error updating sip.conf: {e}")
         raise  # Raise the exception to be caught in the caller function
 
+def update_voicemail_conf(voicemail_conf_path):
+    try:
+        with open(voicemail_conf_path, 'r') as f:
+            voicemail_lines = f.readlines()
+
+        last_internals_index = find_last_internals_index(voicemail_lines)
+
+        if last_internals_index == -1:
+            raise Exception('Verify voicemail.conf file')
+
+        # Remove lines after the line
+        voicemail_lines = voicemail_lines[:last_internals_index + 1]
+
+        # Fetch all users from the database
+        users = fetch_internals_user()
+
+        # Add new user lines from the database
+        for user in users:
+            exten, _ = user
+            voicemail_lines.append(f'{exten} => {exten}\n')
+            lines.append('\n')  # Add an empty line after each user entry
+
+        # Write the updated content back to voicemail.conf
+        with open(voicemail_conf_path, 'w') as f:
+            f.writelines(voicemail_lines)
+
+        logger.info("voicemail.conf updated successfully")
+
+    except Exception as e:
+        logger.error(f"Error updating voicemail.conf: {e}")
+        raise  # Raise the exception to be caught in the caller function
+
 @app.route('/apply', methods=['GET'])
 def apply_changes():
-    sip_conf_path ='/app/sip.conf'
+    sip_conf_path = '/app/sip.conf'
+    voicemail_conf_path = '/app/voicemail.conf'
     try:
         update_sip_conf(sip_conf_path)
+        update_voicemail_conf(voicemail_conf_path)
         return 'Changes applied successfully'
     except Exception as e:
         return f'An error occurred while applying changes: {str(e)}', 500
