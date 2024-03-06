@@ -114,11 +114,11 @@ def update_voicemail_conf(voicemail_conf_path):
 
 @app.route('/apply', methods=['GET'])
 def apply_changes():
-    sip_conf_path = '/app/sip.conf'
-    voicemail_conf_path = '/app/voicemail.conf'
+    sip_path = '/app/sip.conf'
+    voicemail_path = '/app/voicemail.conf'
     try:
-        update_sip_conf(sip_conf_path)
-        update_voicemail_conf(voicemail_conf_path)
+        update_sip_conf(sip_path)
+        update_voicemail_conf(voicemail_path)
         return 'Changes applied successfully'
     except Exception as e:
         return f'An error occurred while applying changes: {str(e)}', 500
