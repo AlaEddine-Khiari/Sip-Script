@@ -16,6 +16,6 @@ class TestApp(unittest.TestCase):
 
         # Call the function to be tested
         update_sip_conf('/app/sip.conf')
-
+        update_voicemail_conf('/app/voicemail.conf')
 if __name__ == '__main__':
     unittest.main()
