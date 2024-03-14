@@ -51,7 +51,7 @@ pipeline {
                  from: 'zizoutejdin02@gmail.com',
                  subject: 'Build Finished - Success',
                  body: '''Dear Mr Ala, 
-                         We are happy to inform you that your pipeline build was successful. 
+                         We are happy to inform you that your pipeline to build Volume image was successful. 
                          Great work! 
                                          
                          Best regards,
@@ -63,11 +63,10 @@ pipeline {
                  from: 'zizoutejdin02@gmail.com',
                  subject: 'Build Finished - Failure',
                  body: '''Dear Mr Ala, 
-                         We are sorry to inform you that your pipeline build failed. 
+                         We are sorry to inform you that your pipeline to build Volume image failed. 
                          Keep working! 
 
                          Best regards,
                          -Jenkins Team-'''
         }
     }
-}
