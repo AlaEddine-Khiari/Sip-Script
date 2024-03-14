@@ -40,7 +40,7 @@ def fetch_internals_user():
         raise  # Raise the exception to be caught in the caller function
 
 def find_last_internals_index(lines):
-    """Find the last "internals" user line index"""
+    """Find the line index"""
     last_internals_index = -1
     for i, line in enumerate(lines):
         if line.startswith('; Configuration for internal extensions'):
@@ -83,15 +83,15 @@ def update_sip_conf(sip_conf_path):
 def update_voicemail_conf(voicemail_conf_path):
     try:
         with open(voicemail_conf_path, 'r') as f:
-            voicemail_lines = f.readlines()
+            lines = f.readlines()
 
-        last_internals_index = find_last_internals_index(voicemail_lines)
+        last_internals_index = find_last_internals_index(lines)
 
         if last_internals_index == -1:
             raise Exception('Verify voicemail.conf file')
 
         # Remove lines after the line
-        voicemail_lines = voicemail_lines[:last_internals_index + 1]
+        lines = lines[:last_internals_index + 1]
 
         # Fetch all users from the database
         users = fetch_internals_user()
@@ -99,7 +99,7 @@ def update_voicemail_conf(voicemail_conf_path):
         # Add new user lines from the database
         for user in users:
             exten, _ = user
-            voicemail_lines.append(f'{exten} => {exten}\n')
+            lines.append(f'{exten} => {exten}\n')
             lines.append('\n')  # Add an empty line after each user entry
 
         # Write the updated content back to voicemail.conf
