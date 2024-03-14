@@ -14,6 +14,7 @@ pipeline {
 
         stage('Test') {
             steps {
+                script {
                     sh "python3 -m unittest Test/test_script.py"
                 }
             }
@@ -70,3 +71,4 @@ pipeline {
                          -Jenkins Team-'''
         }
     }
+}
