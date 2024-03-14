@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import patch, mock_open
-from app import update_sip_conf, fetch_internals_user
+from app import update_sip_conf, fetch_internals_user, update_voicemail_conf
 
 class TestApp(unittest.TestCase):
 
     @patch('psycopg2.connect')
     @patch('builtins.open', mock_open(read_data='XXXX\n; Configuration for internal extensions\n'))
-    def test_update_sip_conf(self, mock_connect):
+    def test_app (self, mock_connect):
         # Mock the fetch_internals_user function to return a valid result
         fetch_internals_user.return_value = [('test_user', 'test_password')]
 
