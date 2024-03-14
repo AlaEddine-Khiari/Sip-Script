@@ -104,7 +104,7 @@ def update_voicemail_conf(voicemail_conf_path):
 
         # Write the updated content back to voicemail.conf
         with open(voicemail_conf_path, 'w') as f:
-            f.writelines(voicemail_lines)
+            f.writelines(lines)
 
         logger.info("voicemail.conf updated successfully")
 
